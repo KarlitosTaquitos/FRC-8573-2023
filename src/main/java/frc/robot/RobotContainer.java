@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.ArmFloat;
 import frc.robot.commands.ArmFloor;
 import frc.robot.commands.ArmInside;
 import frc.robot.commands.Autos;
@@ -49,14 +50,18 @@ public class RobotContainer {
 
   private final Open openClaw = new Open(claw);
   private final Close closeClaw = new Close(claw);
+
   private final ArmInside armInside = new ArmInside(arm);
   private final ArmFloor armFloor = new ArmFloor(arm);
+  private final ArmFloat armFloat = new ArmFloat(arm);
 
   // Buttons
   private final JoystickButton rightBumper = new JoystickButton(player1, Constants.XBOX_R_BUMPER);
   private final JoystickButton leftBumper = new JoystickButton(player1, Constants.XBOX_L_BUMPER);
+
   private final JoystickButton xButton = new JoystickButton(player1, Constants.XBOX_X_BUTTON);
   private final JoystickButton yButton = new JoystickButton(player1, Constants.XBOX_Y_BUTTON);
+  private final JoystickButton bButton = new JoystickButton(player1, Constants.XBOX_B_BUTTON);
 
   
 
@@ -86,8 +91,10 @@ public class RobotContainer {
 
     rightBumper.onTrue(openClaw);
     leftBumper.onTrue(closeClaw.withTimeout(1));
+
     xButton.onTrue(armInside);
-    yButton.onTrue(armFloor);
+    yButton.onTrue(armFloat);
+    bButton.onTrue(armFloor);
 
 
 

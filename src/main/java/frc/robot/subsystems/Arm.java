@@ -55,7 +55,7 @@ public class Arm extends SubsystemBase {
     // SPEED -
     else if (speed < 0) {
       if (position <= STARTING_POS) {
-        powerFunction = 0.1;
+        powerFunction = 0.25;
       } else if (position > 0 && position <= FLOOR_POS) {
         powerFunction = (0.015 * position) + 0.1;
       } else {
@@ -124,8 +124,7 @@ public class Arm extends SubsystemBase {
 
   public double maintainFloatPosition() {
     double position = encoder.getPosition();
-    double tensionAmount = -0.02 * (position - MID_POS);
-    System.out.println("maintaining tension");
+    double tensionAmount = -0.006 * (position - MID_POS);
     return tensionAmount;
   }
 
