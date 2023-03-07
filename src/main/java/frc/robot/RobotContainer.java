@@ -9,6 +9,7 @@ import frc.robot.commands.ArmFloat;
 import frc.robot.commands.ArmFloor;
 import frc.robot.commands.ArmInside;
 import frc.robot.commands.Autos;
+import frc.robot.commands.BalanceDrive;
 import frc.robot.commands.Close;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.ManualArm;
@@ -36,6 +37,7 @@ public class RobotContainer {
 
   // Joysticks
   private final Joystick player1 = new Joystick(0);
+  private final Joystick player2 = new Joystick(1);
 
   // Subsystems
   private final DriveTrain driveTrain = new DriveTrain();
@@ -44,12 +46,14 @@ public class RobotContainer {
  
 
   // Commands
-  private final ArcadeDrive arcadeDrive = new ArcadeDrive(driveTrain, player1);
-  private final TankDrive tankDrive = new TankDrive(driveTrain, player1);
-  private final ManualArm manualArm = new ManualArm(player1, arm);
+  private final ArcadeDrive arcadeDrive = new ArcadeDrive(driveTrain, player2);
+  private final TankDrive tankDrive = new TankDrive(driveTrain, player2);
+  private final BalanceDrive balanceDrive = new BalanceDrive(driveTrain);
 
   private final Open openClaw = new Open(claw);
   private final Close closeClaw = new Close(claw);
+
+  private final ManualArm manualArm = new ManualArm(player1, arm);
 
   private final ArmInside armInside = new ArmInside(arm);
   private final ArmFloor armFloor = new ArmFloor(arm);
@@ -63,7 +67,7 @@ public class RobotContainer {
   private final JoystickButton yButton = new JoystickButton(player1, Constants.XBOX_Y_BUTTON);
   private final JoystickButton bButton = new JoystickButton(player1, Constants.XBOX_B_BUTTON);
 
-  
+  private final JoystickButton flightButton11 = new JoystickButton(player2, Constants.FLIGHT_BUTTON_11);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -96,7 +100,7 @@ public class RobotContainer {
     yButton.onTrue(armFloat);
     bButton.onTrue(armFloor);
 
-
+    flightButton11.toggleOnTrue(balanceDrive);
 
     driveTrain.setDefaultCommand(arcadeDrive);
     arm.setDefaultCommand(manualArm);

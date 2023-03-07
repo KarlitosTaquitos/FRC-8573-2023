@@ -21,6 +21,8 @@ public final class Constants {
   public static final int XBOX_LEFT_Y = 1;
   public static final int XBOX_LEFT_X = 0;
 
+  public static final int XBOX_RIGHT_Y = 5;
+
   // XBOX Buttons
   public static final int XBOX_A_BUTTON = 1;
   public static final int XBOX_B_BUTTON = 2;
@@ -30,6 +32,8 @@ public final class Constants {
   public static final int XBOX_R_BUMPER = 5;
   public static final int XBOX_L_BUMPER = 6;
 
+  // Flight Stick Buttons
+  public static final int FLIGHT_BUTTON_11 = 11;
 
   // Drive motors
   public static final int FRONT_LEFT = 11;
@@ -42,4 +46,7 @@ public final class Constants {
 
   // Claw Motor
   public static final int CLAW = 4;
+
+  // Gyro Motor
+  public static final int GYRO_MOTOR = 10;
 }

@@ -91,7 +91,7 @@ public class Arm extends SubsystemBase {
   }
 
   public boolean atFloatPosition() {
-    return encoder.getPosition() >= FLOAT_POS - 7.5 && encoder.getPosition() < FLOAT_POS + 7.5;
+    return encoder.getPosition() >= FLOAT_POS - 15 && encoder.getPosition() < FLOAT_POS + 15;
   }
 
   public boolean atFloorPosition() {
@@ -103,7 +103,7 @@ public class Arm extends SubsystemBase {
   }
 
   public void moveInside() {
-    arm.set(powerCurve(-0.3));
+    arm.set(powerCurve(-0.5));
     state = 1;
   }
 
@@ -124,7 +124,14 @@ public class Arm extends SubsystemBase {
 
   public double maintainFloatPosition() {
     double position = encoder.getPosition();
-    double tensionAmount = -0.006 * (position - MID_POS);
+    double tensionAmount;
+
+    if (position < 55) {
+      tensionAmount = -0.006 * (position - MID_POS);
+    } else {
+      tensionAmount = 0.005 * (position - 80);  
+    }
+
     return tensionAmount;
   }
 

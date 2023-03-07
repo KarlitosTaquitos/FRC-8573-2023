@@ -5,8 +5,13 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.ADXL362;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -15,12 +20,21 @@ public class DriveTrain extends SubsystemBase {
   private CANSparkMax fR = new CANSparkMax(Constants.FRONT_RIGHT, MotorType.kBrushless);
   private CANSparkMax bL = new CANSparkMax(Constants.BACK_LEFT, MotorType.kBrushless);
   private CANSparkMax bR = new CANSparkMax(Constants.BACK_RIGHT, MotorType.kBrushless);
-  private final double multiplier = 0.1;
+
+  ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+  Accelerometer accel = new ADXL362(SPI.Port.kMXP, Accelerometer.Range.k8G);
+
+  private final double multiplier = 0.75;
+  private final double balanceMult = 0.01;
+
+  private double GYRO_RESTING;
 
   /** Creates a new DriveTrain. */
   public DriveTrain() {
     fR.setInverted(true);
     bR.setInverted(true);
+
+    GYRO_RESTING = gyro.getAngle();
   }
 
   @Override
@@ -49,5 +63,17 @@ public class DriveTrain extends SubsystemBase {
     fR.set(0);
     bL.set(0);
     bR.set(0);
+  }
+
+  public void balance() {
+    double robotAngle = gyro.getAngle();
+    double error = GYRO_RESTING - robotAngle;
+
+    if (error < 1 && error > -1)
+      error = 0;
+
+    double driveSpeed = -balanceMult * error;
+
+    tankDrive(driveSpeed, driveSpeed);
   }
 }

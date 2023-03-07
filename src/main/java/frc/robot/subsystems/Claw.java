@@ -20,7 +20,7 @@ public class Claw extends SubsystemBase {
   /** Creates a new Claw. */
   public Claw() {
     claw.setIdleMode(IdleMode.kBrake);
-    encoder.setPosition(0);
+    encoder.setPosition(-2);
   }
 
   @Override

@@ -30,7 +30,7 @@ public class TankDrive extends CommandBase {
   @Override
   public void execute() {
     double yAxisLeft = p1.getRawAxis(Constants.XBOX_LEFT_Y);
-    double yAxisRight = p1.getRawAxis(2);
+    double yAxisRight = p1.getRawAxis(Constants.XBOX_RIGHT_Y);
 
     dt.tankDrive(yAxisLeft, yAxisRight);
   }
