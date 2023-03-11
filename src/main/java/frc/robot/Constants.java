@@ -49,4 +49,7 @@ public final class Constants {
 
   // Gyro Motor
   public static final int GYRO_MOTOR = 10;
+
+  // Auto Codes
+  public static final String CONE_COMMUNITY = "cone-community";
 }

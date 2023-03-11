@@ -7,35 +7,34 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 
-public class BalanceDrive extends CommandBase {
-  private DriveTrain dt;
+public class ArcadeDriveAmount extends CommandBase {
+  DriveTrain dt;
+  double s, c;
 
-  /** Creates a new BalanceDrive. */
-  public BalanceDrive(DriveTrain d) {
-    dt = d;
-
-    addRequirements(dt);
+  /** Creates a new ArcadeDriveAmount. */
+  public ArcadeDriveAmount(DriveTrain driveTrain, double speed, double curve) {
     // Use addRequirements() here to declare subsystem dependencies.
+    dt = driveTrain;
+    s = speed;
+    c = curve;
+
+    addRequirements(driveTrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    dt.stop();
-    dt.setToBrake();
+    dt.arcadeDrive(s, c);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    dt.balance();
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     dt.stop();
-    dt.setToCoast();
   }
 
   // Returns true when the command should end.

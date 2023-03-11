@@ -5,7 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.ADXL362;
@@ -25,7 +25,7 @@ public class DriveTrain extends SubsystemBase {
   Accelerometer accel = new ADXL362(SPI.Port.kMXP, Accelerometer.Range.k8G);
 
   private final double multiplier = 0.75;
-  private final double balanceMult = 0.01;
+  private final double balanceMult = 0.0075;
 
   private double GYRO_RESTING;
 
@@ -66,14 +66,28 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void balance() {
+
     double robotAngle = gyro.getAngle();
     double error = GYRO_RESTING - robotAngle;
-
-    if (error < 1 && error > -1)
+    if (error < 8 && error > -8)
       error = 0;
 
     double driveSpeed = -balanceMult * error;
+    System.out.println(driveSpeed);
 
     tankDrive(driveSpeed, driveSpeed);
+  }
+
+  public void setToBrake(){
+    fL.setIdleMode(IdleMode.kBrake);
+    fR.setIdleMode(IdleMode.kBrake);
+    bL.setIdleMode(IdleMode.kBrake);
+    bR.setIdleMode(IdleMode.kBrake);
+  }
+  public void setToCoast(){
+    fL.setIdleMode(IdleMode.kCoast);
+    fR.setIdleMode(IdleMode.kCoast);
+    bL.setIdleMode(IdleMode.kCoast);
+    bR.setIdleMode(IdleMode.kCoast);
   }
 }
