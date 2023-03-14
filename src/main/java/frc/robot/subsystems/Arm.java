@@ -91,7 +91,7 @@ public class Arm extends SubsystemBase {
   }
 
   public boolean atFloatPosition() {
-    return encoder.getPosition() >= FLOAT_POS - 15 && encoder.getPosition() < FLOAT_POS + 15;
+    return encoder.getPosition() >= FLOAT_POS - 5 && encoder.getPosition() < FLOAT_POS + 15;
   }
 
   public boolean atFloorPosition() {

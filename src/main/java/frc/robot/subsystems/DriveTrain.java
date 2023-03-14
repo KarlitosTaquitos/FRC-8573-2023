@@ -22,10 +22,10 @@ public class DriveTrain extends SubsystemBase {
   private CANSparkMax bR = new CANSparkMax(Constants.BACK_RIGHT, MotorType.kBrushless);
 
   ADXRS450_Gyro gyro = new ADXRS450_Gyro();
-  Accelerometer accel = new ADXL362(SPI.Port.kMXP, Accelerometer.Range.k8G);
+  // Accelerometer accel = new ADXL362(SPI.Port.kMXP, Accelerometer.Range.k8G);
 
   private final double multiplier = 0.75;
-  private final double balanceMult = 0.0075;
+  private final double balanceMult = 0.0085;
 
   private double GYRO_RESTING;
 
@@ -51,11 +51,38 @@ public class DriveTrain extends SubsystemBase {
     fR.set(rightSpeed);
   }
 
+  public void arcadeDriveJoystick(double speed, double curve, boolean fullPower) {
+    double leftSpeed, rightSpeed;
+
+    if (fullPower) {
+    leftSpeed = (speed + curve);
+     rightSpeed = (speed - curve) ;
+    }
+    else {
+       leftSpeed = (speed + curve) * multiplier;
+     rightSpeed = (speed - curve) * multiplier;
+    }
+
+      fL.set(leftSpeed);
+    fR.set(rightSpeed);
+    bL.set(leftSpeed);
+    fR.set(rightSpeed);
+   
+  }
+
   public void tankDrive(double leftspeed, double rightspeed) {
     fL.set(leftspeed);
     fR.set(rightspeed);
     bL.set(leftspeed);
     bR.set(rightspeed);
+  }
+
+  public void fullSpeed() {
+    fL.set(1);
+    fR.set(1);
+    bL.set(1);
+    bR.set(1);
+
   }
 
   public void stop() {
@@ -66,10 +93,10 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void balance() {
-
     double robotAngle = gyro.getAngle();
     double error = GYRO_RESTING - robotAngle;
-    if (error < 8 && error > -8)
+
+    if (isBalanced())
       error = 0;
 
     double driveSpeed = -balanceMult * error;
@@ -78,13 +105,32 @@ public class DriveTrain extends SubsystemBase {
     tankDrive(driveSpeed, driveSpeed);
   }
 
-  public void setToBrake(){
+  public boolean isBalanced() {
+    double robotAngle = gyro.getAngle();
+    double error = GYRO_RESTING - robotAngle;
+
+    return error > -8 && error < 8;
+  }
+
+  public boolean chargeStationUnbalanced() {
+    double robotAngle = gyro.getAngle();
+    double error = GYRO_RESTING - robotAngle;
+
+    // check if tilting forward
+    boolean tiltingForward = error > 11 && error < 16;
+    boolean tiltingBackward = error < -11 && error > -16;
+
+    return tiltingForward || tiltingBackward;
+  }
+
+  public void setToBrake() {
     fL.setIdleMode(IdleMode.kBrake);
     fR.setIdleMode(IdleMode.kBrake);
     bL.setIdleMode(IdleMode.kBrake);
     bR.setIdleMode(IdleMode.kBrake);
   }
-  public void setToCoast(){
+
+  public void setToCoast() {
     fL.setIdleMode(IdleMode.kCoast);
     fR.setIdleMode(IdleMode.kCoast);
     bL.setIdleMode(IdleMode.kCoast);

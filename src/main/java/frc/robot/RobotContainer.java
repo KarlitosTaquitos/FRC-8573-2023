@@ -20,6 +20,7 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -39,6 +40,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
+  public static final Spark led = null;
   // Joysticks
   private final Joystick player1 = new Joystick(0);
   private final Joystick player2 = new Joystick(1);
@@ -76,7 +78,8 @@ public class RobotContainer {
   private final JoystickButton flightButton11 = new JoystickButton(player2, Constants.FLIGHT_BUTTON_11);
   private final JoystickButton flightButton7 = new JoystickButton(player2, 7);
   private final JoystickButton flightButton8 = new JoystickButton(player2, 8);
-  
+
+  private final JoystickButton fullSpeed = new JoystickButton(player1, 2);
 
   private String selectedAuto;
   private final SendableChooser<String> chooser = new SendableChooser<>();
@@ -87,7 +90,10 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    chooser.addOption("Cone and Community", Constants.CONE_COMMUNITY);
+
+    chooser.addOption("Cone and Balance", Constants.CONE_BALANCE);
+    chooser.addOption("BlueBalance", Constants.BLUE_CONE_BALANCE);
+    chooser.setDefaultOption("Cone and Commmunity", Constants.CONE_COMMUNITY);
     SmartDashboard.putData("Auto Choices", chooser);
   }
 
@@ -115,7 +121,7 @@ public class RobotContainer {
 
     flightButton11.toggleOnTrue(balanceDrive);
 
-    flightButton7.onTrue(setBrake);
+    flightButton7.whileTrue(setBrake);
     flightButton8.onTrue(setCoast);
 
     driveTrain.setDefaultCommand(arcadeDrive);
@@ -134,8 +140,13 @@ public class RobotContainer {
     switch (selectedAuto) {
       case "cone-community":
         return Autos.coneCommunity(arm, claw, driveTrain);
+      case "cone-balance":
+        return Autos.coneBalance(arm, claw, driveTrain);
+      case "blueConeBalance":
+        return Autos.BlueconeBalance(arm, claw, driveTrain);
       default:
         return Autos.coneCommunity(arm, claw, driveTrain);
+
     }
   }
 }

@@ -30,15 +30,17 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double yAxis = p1.getRawAxis(1);
-    double xAxis = p1.getRawAxis(0);
+    double yAxis = p1.getRawAxis(Constants.FLIGHT_Y);
+    double xAxis = p1.getRawAxis(Constants.FLIGHT_X);
 
     if (yAxis < 0.05 && yAxis > -0.05)
       yAxis = 0;
     if (xAxis < 0.05 && xAxis > -0.05)
       xAxis = 0;
 
-    dt.arcadeDrive(-yAxis, xAxis);
+    boolean fullPower = p1.getRawButton(1);
+
+    dt.arcadeDriveJoystick(-yAxis, xAxis, fullPower);
   }
 
   // Called once the command ends or is interrupted.
