@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Main;
 
 public class Arm extends SubsystemBase {
   private CANSparkMax arm = new CANSparkMax(Constants.ARM, MotorType.kBrushless);
@@ -20,6 +21,7 @@ public class Arm extends SubsystemBase {
   private final double FLOOR_POS = 60;
   private final double MID_POS = 30;
   private final double FLOAT_POS = 45;
+  private final double INSIDEFLOAT_POS = 18;
 
   public int state = 0;
 
@@ -66,6 +68,8 @@ public class Arm extends SubsystemBase {
     else {
       if (atFloatPosition()) {
         return maintainFloatPosition();
+      } else if (atInsideFloatPosition()) {
+        return maintainInsideFloatPosition();
       } else {
         return 0;
       }
@@ -94,6 +98,10 @@ public class Arm extends SubsystemBase {
     return encoder.getPosition() >= FLOAT_POS - 5 && encoder.getPosition() < FLOAT_POS + 15;
   }
 
+  public boolean atInsideFloatPosition() {
+    return encoder.getPosition() >= INSIDEFLOAT_POS - 5 && encoder.getPosition() < INSIDEFLOAT_POS + 1;
+  }
+
   public boolean atFloorPosition() {
     return encoder.getPosition() >= FLOOR_POS;
   }
@@ -103,12 +111,12 @@ public class Arm extends SubsystemBase {
   }
 
   public void moveInside() {
-    arm.set(powerCurve(-0.5));
+    arm.set(powerCurve(-0.75));
     state = 1;
   }
 
   public void moveToFloor() {
-    arm.set(powerCurve(0.35));
+    arm.set(powerCurve(0.65));
     state = 2;
   }
 
@@ -116,9 +124,18 @@ public class Arm extends SubsystemBase {
     double position = encoder.getPosition();
 
     if (position < FLOAT_POS) {
-      arm.set(powerCurve(0.3));
+      arm.set(powerCurve(0.75));
     } else {
-      arm.set(powerCurve(-0.35));
+      arm.set(powerCurve(-0.65));
+    }
+  }
+
+  public void moveToFloatInside() {
+    double position = encoder.getPosition();
+    if (position < INSIDEFLOAT_POS) {
+      arm.set(powerCurve(0.75));
+    } else {
+      arm.set(powerCurve(-0.65));
     }
   }
 
@@ -129,9 +146,17 @@ public class Arm extends SubsystemBase {
     if (position < 55) {
       tensionAmount = -0.006 * (position - MID_POS);
     } else {
-      tensionAmount = 0.005 * (position - 80);  
+      tensionAmount = 0.005 * (position - 80);
     }
 
+    return tensionAmount;
+  }
+
+  public double maintainInsideFloatPosition() {
+    double position = encoder.getPosition();
+    double tensionAmount;
+
+    tensionAmount = -0.004 * (position - 40);
     return tensionAmount;
   }
 

@@ -43,8 +43,8 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double speed, double curve) {
-    double leftSpeed = (speed + curve) * multiplier;
-    double rightSpeed = (speed - curve) * multiplier;
+    double leftSpeed = (speed + curve);
+    double rightSpeed = (speed - curve);
     fL.set(leftSpeed);
     fR.set(rightSpeed);
     bL.set(leftSpeed);
@@ -56,14 +56,14 @@ public class DriveTrain extends SubsystemBase {
 
     if (fullPower) {
     leftSpeed = (speed + curve);
-     rightSpeed = (speed - curve) ;
+    rightSpeed = (speed - curve) ;
     }
     else {
        leftSpeed = (speed + curve) * multiplier;
      rightSpeed = (speed - curve) * multiplier;
     }
 
-      fL.set(leftSpeed);
+    fL.set(leftSpeed);
     fR.set(rightSpeed);
     bL.set(leftSpeed);
     fR.set(rightSpeed);
@@ -82,7 +82,6 @@ public class DriveTrain extends SubsystemBase {
     fR.set(1);
     bL.set(1);
     bR.set(1);
-
   }
 
   public void stop() {

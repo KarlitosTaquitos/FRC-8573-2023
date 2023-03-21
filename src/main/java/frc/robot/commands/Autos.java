@@ -16,21 +16,27 @@ public final class Autos {
   public static CommandBase coneCommunity(Arm arm, Claw claw, DriveTrain driveTrain) {
     return Commands.sequence(
         new Close(claw),
+        new ArcadeDriveAmount(driveTrain, 0, 0).withTimeout(0.25),
         new ArmFloat(arm),
+        new ArcadeDriveAmount(driveTrain, 0, 0).withTimeout(0.25),
         new Open(claw),
+        new ArcadeDriveAmount(driveTrain, 0, 0).withTimeout(0.25),
         Commands.parallel(
-            new ArcadeDriveAmount(driveTrain, -0.5, 0).withTimeout(1.5),
-            new Close(claw),
+            new ArcadeDriveAmount(driveTrain, -0.35, .0425).withTimeout(1.5),
+            new Close(claw).withTimeout(1),
             new ArmInside(arm)));
   }
 
   public static CommandBase coneBalance(Arm arm, Claw claw, DriveTrain driveTrain) {
     return Commands.sequence(
         new Close(claw),
+        new ArcadeDriveAmount(driveTrain, 0, 0).withTimeout(0.25),
         new ArmFloat(arm),
+        new ArcadeDriveAmount(driveTrain, 0, 0).withTimeout(0.25),
         new Open(claw),
+        new ArcadeDriveAmount(driveTrain, 0, 0).withTimeout(0.25),
         Commands.parallel(
-            new Close(claw),
+            new Close(claw).withTimeout(1),
             new ArmInside(arm)),
         new ArcadeDriveAmount(driveTrain, -0.625, 0).withTimeout(1.5),
         new BalanceDrive(driveTrain));
@@ -39,15 +45,35 @@ public final class Autos {
   public static CommandBase BlueconeBalance(Arm arm, Claw claw, DriveTrain driveTrain) {
     return Commands.sequence(
         new Close(claw),
+        new ArcadeDriveAmount(driveTrain, 0, 0).withTimeout(0.25),
         new ArmFloat(arm),
+        new ArcadeDriveAmount(driveTrain, 0, 0).withTimeout(0.25),
         new Open(claw),
+        new ArcadeDriveAmount(driveTrain, 0, 0).withTimeout(0.25),
         Commands.parallel(
-            new Close(claw),
+            new Close(claw).withTimeout(1),
             new ArmInside(arm)),
-        //new ArcadeDriveAmount(driveTrain, -0.5, 0).withTimeout(2),
+        // new ArcadeDriveAmount(driveTrain, -0.5, 0).withTimeout(2),
         new ArcadeDriveAmount(driveTrain, -0.7, 0).withTimeout(1.5),
 
         new BalanceDrive(driveTrain));
+  }
+
+  public static CommandBase cone(Claw claw, Arm arm, DriveTrain driveTrain) {
+    return Commands.sequence(
+        new Close(claw),
+        new ArcadeDriveAmount(driveTrain, 0, 0).withTimeout(0.25),
+        new ArmFloat(arm),
+        new ArcadeDriveAmount(driveTrain, 0, 0).withTimeout(0.25),
+        new Open(claw),
+        new ArcadeDriveAmount(driveTrain, 0, 0).withTimeout(0.25),
+        Commands.parallel(
+            new Close(claw).withTimeout(1),
+            new ArmInside(arm)));
+  }
+
+  public static CommandBase testCommand(Arm arm) {
+    return new ArmFloat(arm);
   }
 
   private Autos() {

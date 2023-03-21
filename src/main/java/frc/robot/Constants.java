@@ -53,14 +53,21 @@ public final class Constants {
   public static final int CLAW = 4;
 
   // Gyro Motor
-  public static final int GYRO_MOTOR = 10;
+  public static final int CONE_STICK = 10;
 
   // Auto Codes
   public static final String CONE_COMMUNITY = "cone-community";
   public static final String CONE_BALANCE = "cone-balance";
   public static final String BLUE_CONE_BALANCE = "blueConeBalance";
+  public static final String NODRIVECONE = "cone_no_drive";
 
   //led
   public static final int led1 = 1;
   public static final int led2 = 2;
+
+  //ConeStick DPAD Values
+  public static final int up = 0;
+  public static final int right = 90;
+  public static final int down = 180;
+  public static final int left = 270;
 }

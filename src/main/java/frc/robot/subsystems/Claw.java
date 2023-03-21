@@ -29,11 +29,11 @@ public class Claw extends SubsystemBase {
   }
  
   public void open(){
-    claw.set(-.25);
+    claw.set(-.5);
   }
 
   public void close(){
-    claw.set(.3);
+    claw.set(.5);
   }
 
   public void tension(){
@@ -45,9 +45,12 @@ public class Claw extends SubsystemBase {
   }
 
   public boolean openPosition(){
-    return encoder.getPosition() <= -20;
+    return encoder.getPosition() <= -22;
   }
   public boolean closePosition(){
     return encoder.getPosition() >= -2;
+  }
+  public boolean openSmall(){
+    return encoder.getPosition() <= -10;
   }
 }
