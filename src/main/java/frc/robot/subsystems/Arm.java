@@ -47,7 +47,7 @@ public class Arm extends SubsystemBase {
     // SPEED +
     if (speed > 0) {
       if (position <= STARTING_POS) {
-        powerFunction = 0.5;
+        powerFunction = 0.35;
       } else if (position > 0 && position <= FLOOR_POS) {
         powerFunction = (-0.015 * position) + 1;
       } else {
@@ -57,11 +57,11 @@ public class Arm extends SubsystemBase {
     // SPEED -
     else if (speed < 0) {
       if (position <= STARTING_POS) {
-        powerFunction = 0.25;
+        powerFunction = 0.15;
       } else if (position > 0 && position <= FLOOR_POS) {
         powerFunction = (0.015 * position) + 0.1;
       } else {
-        powerFunction = 0.625;
+        powerFunction = 0.45;
       }
     }
     // SPEED 0
@@ -127,6 +127,16 @@ public class Arm extends SubsystemBase {
       arm.set(powerCurve(0.75));
     } else {
       arm.set(powerCurve(-0.65));
+    }
+  }
+
+  public void moveToFloatSlow(){
+    double position = encoder.getPosition();
+
+    if (position < FLOAT_POS) {
+      arm.set(powerCurve(0.375));
+    } else {
+      arm.set(powerCurve(-0.325));
     }
   }
 

@@ -9,7 +9,6 @@ import frc.robot.commands.ArmFloat;
 import frc.robot.commands.ArmFloatInside;
 import frc.robot.commands.ArmFloor;
 import frc.robot.commands.ArmInside;
-import frc.robot.commands.ArmFloatInside;
 import frc.robot.commands.StickFloor;
 import frc.robot.commands.StickInside;
 import frc.robot.commands.Autos;
@@ -87,20 +86,26 @@ public class RobotContainer {
   private final StickControl stickControl = new StickControl(coneStick, player1);*/
 
   // Buttons
-  private final JoystickButton rightBumper = new JoystickButton(player1, Constants.XBOX_R_BUMPER);
-  private final JoystickButton leftBumper = new JoystickButton(player1, Constants.XBOX_L_BUMPER);
+  private final JoystickButton rightBumperXBOX = new JoystickButton(player1, Constants.XBOX_R_BUMPER);
+  private final JoystickButton leftBumperXBOX = new JoystickButton(player1, Constants.XBOX_L_BUMPER);
 
-  private final JoystickButton xButton = new JoystickButton(player1, Constants.XBOX_X_BUTTON);
-  private final JoystickButton yButton = new JoystickButton(player1, Constants.XBOX_Y_BUTTON);
-  private final JoystickButton bButton = new JoystickButton(player1, Constants.XBOX_B_BUTTON);
+  private final JoystickButton xButtonXBOX = new JoystickButton(player1, Constants.XBOX_X_BUTTON);
+  private final JoystickButton yButtonXBOX = new JoystickButton(player1, Constants.XBOX_Y_BUTTON);
+  private final JoystickButton bButtonXBOX = new JoystickButton(player1, Constants.XBOX_B_BUTTON);
 
   private final JoystickButton flightButton11 = new JoystickButton(player2, Constants.FLIGHT_BUTTON_11);
+
   private final JoystickButton flightButton7 = new JoystickButton(player2, 7);
+  private final JoystickButton squarePS4 = new JoystickButton(player2, Constants.PS4_SQUARE);
+
   private final JoystickButton flightButton8 = new JoystickButton(player2, 8);
+  private final JoystickButton xPS4 = new JoystickButton(player2, Constants.PS4_X);
+
+  private final JoystickButton rightBumperPS4 = new JoystickButton(player2, Constants.PS4_R_BUMPER);
 
   //private final JoystickButton leftStick = new JoystickButton(player1, 9);
 
-  private final JoystickButton aButton = new JoystickButton(player1, Constants.XBOX_A_BUTTON);
+  private final JoystickButton aButtonXBOX = new JoystickButton(player1, Constants.XBOX_A_BUTTON);
 
   private String selectedAuto;
   private final SendableChooser<String> chooser = new SendableChooser<>();
@@ -134,22 +139,22 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    rightBumper.onTrue(openClaw);
-    leftBumper.onTrue(closeClaw.withTimeout(1));
+    rightBumperXBOX.onTrue(openClaw);
+    leftBumperXBOX.onTrue(closeClaw.withTimeout(1));
 
-    xButton.toggleOnTrue(armInside);
-    yButton.toggleOnTrue(armFloat);
-    bButton.toggleOnTrue(armFloor);
-    aButton.toggleOnTrue(Commands.parallel(
+    xButtonXBOX.toggleOnTrue(armInside);
+    yButtonXBOX.toggleOnTrue(armFloat);
+    bButtonXBOX.toggleOnTrue(armFloor);
+    aButtonXBOX.toggleOnTrue(Commands.sequence(
         armFloatInside,
         openSmallAmount));
 
     //leftStick.toggleOnTrue(stickFloat);
 
-    flightButton11.toggleOnTrue(balanceDrive);
+    rightBumperPS4.toggleOnTrue(balanceDrive);
 
-    flightButton7.whileTrue(setBrake);
-    flightButton8.onTrue(setCoast);
+    squarePS4.onTrue(setCoast);
+    xPS4.whileTrue(setBrake);
 
     driveTrain.setDefaultCommand(arcadeDrive);
     arm.setDefaultCommand(manualArm);
@@ -165,18 +170,18 @@ public class RobotContainer {
     // An example command will be run in autonomous
     selectedAuto = chooser.getSelected();
 
-    //switch (selectedAuto) {
-     // case "cone-community":
-      //  return Autos.coneCommunity(arm, claw, driveTrain);
-      //case "cone-balance":
-       // return Autos.coneBalance(arm, claw, driveTrain);
-    //  case "blueConeBalance":
-       // return Autos.BlueconeBalance(arm, claw, driveTrain);
-     // case "cone_no_drive":
-       // return Autos.cone(claw, arm, driveTrain);
-     // default:
-      //return Autos.coneCommunity(arm, claw, driveTrain);
-    //}
-    return Autos.coneCommunity(arm, claw, driveTrain);
+    /*switch (selectedAuto) {
+     case "cone-community":
+       return Autos.coneCommunity(arm, claw, driveTrain);
+      case "cone-balance":
+       return Autos.coneBalance(arm, claw, driveTrain);
+     case "blueConeBalance":
+       return Autos.BlueconeBalance(arm, claw, driveTrain);
+     case "cone_no_drive":
+       return Autos.cone(arm, claw, driveTrain);
+     default:
+      return Autos.cone(arm, claw, driveTrain);
+    }*/
+    return Autos.cone(arm, claw, driveTrain);
   }
 }

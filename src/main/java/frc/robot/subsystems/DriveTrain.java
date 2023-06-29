@@ -24,8 +24,8 @@ public class DriveTrain extends SubsystemBase {
   ADXRS450_Gyro gyro = new ADXRS450_Gyro();
   // Accelerometer accel = new ADXL362(SPI.Port.kMXP, Accelerometer.Range.k8G);
 
-  private final double multiplier = 0.75;
-  private final double balanceMult = 0.0085;
+  private final double multiplier = 0.25;
+  private final double balanceMult = 0.009;
 
   private double GYRO_RESTING;
 
@@ -43,8 +43,9 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double speed, double curve) {
-    double leftSpeed = (speed + curve);
+    double leftSpeed = (speed + curve) * 0.97;
     double rightSpeed = (speed - curve);
+
     fL.set(leftSpeed);
     fR.set(rightSpeed);
     bL.set(leftSpeed);
@@ -55,19 +56,18 @@ public class DriveTrain extends SubsystemBase {
     double leftSpeed, rightSpeed;
 
     if (fullPower) {
-    leftSpeed = (speed + curve);
-    rightSpeed = (speed - curve) ;
-    }
-    else {
-       leftSpeed = (speed + curve) * multiplier;
-     rightSpeed = (speed - curve) * multiplier;
+      leftSpeed = (speed + curve);
+      rightSpeed = (speed - curve);
+    } else {
+      leftSpeed = (speed + curve) * multiplier;
+      rightSpeed = (speed - curve) * multiplier;
     }
 
     fL.set(leftSpeed);
     fR.set(rightSpeed);
     bL.set(leftSpeed);
     fR.set(rightSpeed);
-   
+
   }
 
   public void tankDrive(double leftspeed, double rightspeed) {

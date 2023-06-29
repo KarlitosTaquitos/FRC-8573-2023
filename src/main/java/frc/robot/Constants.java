@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -28,6 +26,9 @@ public final class Constants {
   public static final int FLIGHT_Y = 1;
   public static final int FLIGHT_X = 0;
 
+  public static final int PS4_LEFT_Y = 1;
+  public static final int PS4_RIGHT_X = 4;
+
   // XBOX Buttons
   public static final int XBOX_A_BUTTON = 1;
   public static final int XBOX_B_BUTTON = 2;
@@ -36,6 +37,12 @@ public final class Constants {
 
   public static final int XBOX_R_BUMPER = 5;
   public static final int XBOX_L_BUMPER = 6;
+
+  //PS4 Buttons
+  public static final int PS4_R_BUMPER = 6;
+  public static final int PS4_L_BUMPER = 5;
+  public static final int PS4_SQUARE = 3;
+  public static final int PS4_X = 1;
 
   // Flight Stick Buttons
   public static final int FLIGHT_BUTTON_11 = 11;
